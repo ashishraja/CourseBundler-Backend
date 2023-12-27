@@ -1,7 +1,7 @@
 import { catchAsyncErrors } from "../Middleware/catchAsyncErrors.js";
 import {Course} from "../Models/Course.js"
 import getDataUri from "../Utils/dataUri.js";
-import ErrorHandler from "../Utils/errorHandler.js";
+import ErrorHandler from "../Utils/ErrorHandler.js";
 import cloudinary from "cloudinary";
 import { Stats } from "../Models/Stats.js";
 

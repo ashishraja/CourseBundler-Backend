@@ -1,6 +1,6 @@
 import { catchAsyncErrors } from "../Middleware/catchAsyncErrors.js";
 import { Stats } from "../Models/Stats.js";
-import ErrorHandler from "../Utils/errorHandler.js";
+import ErrorHandler from "../Utils/ErrorHandler.js";
 import sendEmail from "../Utils/sendEmail.js";
 
 export const contact = catchAsyncErrors(async (req,res,next) => {
@@ -62,7 +62,7 @@ export const  getDashboardStats = catchAsyncErrors(async (req,res,next) => {
             views:0
         });
     }
-    
+
     const usersCount = statsData[11].users;
     const subscriptionCount = statsData[11].subscription;
     const viewsCount = statsData[11].views;
