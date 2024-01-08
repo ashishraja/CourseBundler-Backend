@@ -1,5 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
+import cors from "cors";
+
 import cookieParser from "cookie-parser"
 config({
     path:"./Config/config.env",
@@ -12,6 +14,9 @@ app.use(express.urlencoded({
     extended:true,
 }));
 app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:3000',
+}));
 
 import course from "./Routes/courseRoutes.js"
 import user from "./Routes/userRoutes.js"
