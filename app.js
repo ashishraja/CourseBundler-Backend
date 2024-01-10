@@ -3,9 +3,6 @@ import { config } from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser"
 
-import session from "express-session";
-
-
 config({
     path:"./Config/config.env",
 });
@@ -17,12 +14,7 @@ app.use(express.urlencoded({
     extended:true,
 }));
 app.use(cookieParser());
-app.use(session({
-    cookie: {
-      secure: true,
-      sameSite: 'None',
-    },
-  }));
+
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,

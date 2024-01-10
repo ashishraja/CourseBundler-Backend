@@ -13,7 +13,6 @@ import { Stats } from "../Models/Stats.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
 
-
     const { name, email, password } = req.body;
 
     let user = await User.findOne({email});
@@ -389,7 +388,5 @@ User.watch().on("change",async()=>{
     stats[0].createdAt = new Date(Date.now());
 
     await stats[0].save();
-
-    
 
 });
