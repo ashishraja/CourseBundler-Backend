@@ -72,16 +72,6 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
         sameSite: "none",
     });
 
-    const clearCookie = async () => {
-        try {
-          await fetch('/clear-cookie');
-          console.log('Cookie cleared on the server');
-        } catch (error) {
-          console.error('Error clearing cookie:', error);
-        }
-      };
-    clearCookie();
-
     res.status(200).json({
         success: true,
         message: "Logged out successfully"

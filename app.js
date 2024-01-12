@@ -19,15 +19,6 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
 }));
-app.get('/clear-cookie', (req, res) => {
-    res.clearCookie('_cfuvid', {
-      domain: '.onrender.com',
-      path: '/',
-      secure: true,
-      httpOnly: true,
-    });
-    res.send('Cookie cleared');
-  });
 
 import course from "./Routes/courseRoutes.js"
 import user from "./Routes/userRoutes.js"
