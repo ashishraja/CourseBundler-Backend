@@ -65,7 +65,7 @@ export const loginUser = catchAsyncErrors(async (req, res, next) => {
 
 export const logout = catchAsyncErrors(async (req, res, next) => {
 
-    res.cookie("token", null, {
+    res.cookie("token", "" , {
         expires: new Date(Date.now()),
         httpOnly: true,
         secure: true,
@@ -197,7 +197,7 @@ export const updatePassword = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler(" Password is not matching with confirmPassword.", 404))
     }
 
-    user.password = req.body.newPassword;
+    user.password =  req.body.newPassword;
     await user.save();
 
     sendToken(user, 200, res, "Password Updated Successfully...");
