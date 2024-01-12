@@ -74,6 +74,7 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
         success: true,
         message: "Logged Out Successfully"
     });
+    
 });
 
 export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
