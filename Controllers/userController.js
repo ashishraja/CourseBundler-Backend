@@ -68,9 +68,8 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
     res.cookie("token", "" , {
         expires: new Date(Date.now()),
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        path: "/",
+        // secure: true,
+        // sameSite: "none",
     });
 
     res.status(200).json({
@@ -104,9 +103,6 @@ export const deleteMyProfile = catchAsyncErrors(async (req, res, next) => {
     });
 
 });
-
-
-
 
 export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
