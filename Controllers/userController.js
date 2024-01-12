@@ -185,23 +185,19 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 
 export const updatePassword = catchAsyncErrors(async (req,res,next) => {
-    const {oldPassword , newPassword , confirmPassword} = req.body;
+    const {oldPassword , newPassword } = req.body;
     
     const user = await User.findById(req.user.id).select("+password");
     
-    if(!oldPassword || !confirmPassword || !newPassword){
-        return next(new ErrorHandler(" Please fill all the fields.",401));
-    }
-
     const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
     if(!isPasswordMatched){
         return next(new ErrorHandler(" oldPassword is incorrect",401));
     }
 
-    if(req.body.newPassword !== req.body.confirmPassword){ 
-        return next(new ErrorHandler(" New Password is not matching with confirmPassword.",404))
-    }
+    // if(req.body.newPassword !== req.body.confirmPassword){ 
+    //     return next(new ErrorHandler(" New Password is not matching with confirmPassword.",404))
+    // }
 
     user.password = req.body.newPassword;
     await user.save();
