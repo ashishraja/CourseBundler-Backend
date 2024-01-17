@@ -225,25 +225,42 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
 export const updateProfilePicture = catchAsyncErrors(async (req, res, next) => {
 
     const user = await User.findById(req.user.id);
+    
+    if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+    }
 
-    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    try {
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
 
-    const file = req.file;
-    const fileUri = getDataUri(file);
-    const myCloud = await cloudinary.v2.uploader.upload(fileUri.content)
+        const file = req.file;
 
+        if (!file) {
+            return next(new ErrorHandler("No file provided", 400));
+        }
 
-    user.avatar = {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url
-    };
+        const fileUri = getDataUri(file);
 
-    await user.save();
+        if (!fileUri || !fileUri.content) {
+            return next(new ErrorHandler("Invalid file data", 400));
+        }
 
-    res.status(200).json({
-        success: true,
-        message: "Profile Picture Updated Successfully..."
-    });
+        const myCloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
+        user.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url
+        };
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Profile Picture Updated Successfully..."
+        });
+    } catch (error) {
+        return next(new ErrorHandler("Error updating profile picture", 500));
+    }
 
 });
 
