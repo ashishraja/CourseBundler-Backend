@@ -1,31 +1,31 @@
-import {createTransport} from "nodemailer";
+import { createTransport } from "nodemailer";
 
+const sendEmail = async (options) => {
+  const transport = createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    }
+  })
 
-const sendEmail = async (to,subject,text) => {
-    const transport = createTransport({
-        host:process.env.SMTP_HOST,
-        port:process.env.SMTP_PORT,
-        secure:true,
-        auth:{
-                user:process.env.SMTP_USER,
-                pass:process.env.SMTP_PASS,
-            }
-        });
+  const emailOptions = {
+    to: options.email,
+    subject: options.subject,
+    text: options.message
+  }
 
-    const emailOptions = {
-        to,
-        subject,
-        text
-    };
-
-    transport.sendMail(emailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent : ' + info.response);
-        }
-      });
+  await transport.sendMail(emailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 };
 
 
+
 export default sendEmail;
+
