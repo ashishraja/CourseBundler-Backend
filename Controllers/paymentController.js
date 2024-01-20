@@ -46,7 +46,7 @@ export const paymentVerification = catchAsyncErrors(async (req, res, next) => {
     const subscriptionId = user.subscription.id ;
 
     const generatedSignature = crypto
-    .createHmac("sha256",process.env.RAZORPAY_API_SECRET)
+    .createHmac("sha256",process.env.KEY_SECRET)
     .update(razorpay_payment_id + "|" + subscriptionId , "utf-8")
     .digest("hex");
 
