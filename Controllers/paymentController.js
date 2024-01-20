@@ -38,43 +38,44 @@ export const buySubscription = catchAsyncErrors(async (req, res, next) => {
 });
 
 
+const KEY_SECRET = process.env.KEY_SECRET;
+const REFUND_DAYS = process.env.REFUND_DAYS;
+
+
 export const paymentVerification = catchAsyncErrors(async (req, res, next) => {
-  
-    const {razorpay_payment_id , razorpay_signature , razorpay_subscription_id} = req.body;
+  try {
+    const { razorpay_payment_id, razorpay_signature, razorpay_subscription_id } = req.body;
     const user = await User.findById(req.user._id);
 
-    const subscriptionId = user.subscription.id ;
-  console.log(razorpay_payment_id);
-  console.log(razorpay_signature);
-  console.log(razorpay_subscription_id);
-    const generatedSignature = crypto
-    .createHmac("sha256",process.env.KEY_SECRET)
-    .update(razorpay_payment_id + "|" + subscriptionId , "utf-8")
-    .digest("hex");
-console.log(generatedSignature);
-    let isAuthentic;
-    if(generatedSignature === razorpay_signature){
-      isAuthentic = true;
-    }else{
-      isAuthentic = false;
-    }
+    const subscriptionId = user.subscription.id;
 
-    if(!isAuthentic){
+    const generatedSignature = crypto
+      .createHmac("sha256", KEY_SECRET)
+      .update(`${razorpay_payment_id}|${subscriptionId}`, "utf-8")
+      .digest("hex");
+
+    const isAuthentic = generatedSignature === razorpay_signature;
+
+    if (!isAuthentic) {
       return res.redirect(`${process.env.FRONTEND_URL}/paymentfail`);
     }
 
     await Payment.create({
       razorpay_payment_id,
       razorpay_signature,
-      razorpay_subscription_id
-    });    
-    
-    user.subscription.status="active";
+      razorpay_subscription_id,
+    });
 
+    user.subscription.status = "active";
     await user.save();
 
     res.redirect(`${process.env.FRONTEND_URL}/paymentsuccess?reference=${razorpay_payment_id}`);
+  } catch (error) {
+    console.error('Error in payment verification:', error);
+    next(error);
+  }
 });
+
 
 
 export const getRazorPayKey = catchAsyncErrors(async (req, res, next) => {
@@ -101,7 +102,7 @@ export const cancelSubscription = catchAsyncErrors(async (req, res, next) => {
   let refund;
 
   const gap = Date.now() - payment.createdAt;
-  const refundTime = provess.env.REFUND_DAYS;
+  const refundTime = REFUND_DAYS;
 
   if(refundTime>gap){
     // await instance.payments.refund(razorpay_payment_id);
