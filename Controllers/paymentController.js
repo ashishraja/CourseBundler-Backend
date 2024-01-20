@@ -3,6 +3,7 @@ import { User } from "../Models/User.js";
 import { Payment } from "../Models/Payment.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import { razorpayInstance } from "../server.js";
+import crypto from 'crypto';
 
 export const buySubscription = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -45,7 +46,7 @@ export const paymentVerification = catchAsyncErrors(async (req, res, next) => {
     const subscriptionId = user.subscription.id ;
 
     const generatedSignature = crypto
-    .createHmac("sha26",process.env.RAZORPAY_API_SECRET)
+    .createHmac("sha256",process.env.RAZORPAY_API_SECRET)
     .update(razorpay_payment_id + "|" + subscriptionId , "utf-8")
     .digest("hex");
 
