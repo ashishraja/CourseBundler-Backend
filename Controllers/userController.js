@@ -345,8 +345,8 @@ export const getSingleUserDetails = catchAsyncErrors(async (req, res, next) => {
 //update user role : admin
 export const updateUserRole = catchAsyncErrors(async (req, res, next) => {
 
-
     const user = await User.findById(req.params.id);
+    
     if (!user) {
         return next(new ErrorHandler("User Not Found", 404));
     }
@@ -394,5 +394,4 @@ User.watch().on("change", async () => {
     stats[0].createdAt = new Date(Date.now());
 
     await stats[0].save();
-
 });

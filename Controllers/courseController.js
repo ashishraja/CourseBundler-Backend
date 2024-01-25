@@ -76,9 +76,9 @@ export const getCourseLectures = catchAsyncErrors(async (req,res,next) => {
 export const addCourseLecture = catchAsyncErrors(async (req,res,next) => {
 
     const {title,description} = req.body;
-    const {courseId} = req.params;
+    const {id} = req.params;
 
-    const course = await Course.findById(courseId);
+    const course = await Course.findById(id);
     if(!course){
         return next(new ErrorHandler("Course Not Found...",404));
     }
@@ -105,7 +105,7 @@ export const addCourseLecture = catchAsyncErrors(async (req,res,next) => {
 
     res.status(200).json({
         success:true,
-        lectures:"Course lectures added successfully...",
+        message:"Course lectures added successfully...",
     });
 
 });
