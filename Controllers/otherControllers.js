@@ -3,46 +3,6 @@ import { Stats } from "../Models/Stats.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import sendEmail from "../Utils/sendEmail.js";
 
-export const contact = catchAsyncErrors(async (req,res,next) => {
-
-    const {name , email , message} = req.body;
-
-    if(!name || !email || !message){
-        return next(new ErrorHandler("Please enter all the fields.",404));
-    }
-
-    const to = process.env.MY_MAIL;
-    const subject = "Contact from CourseBundler";
-    const text = `I am ${name} and my email is ${email} \n ${message}` 
-
-    await sendEmail(to,subject,text);
-
-    res.status(200).json({
-        success:true,
-        message:"Thank you for contacting us. We will comeback to you soon."
-    });
-});
-
-export const courseRequest = catchAsyncErrors(async (req,res,next) => {
-
-    const {name , email , course} = req.body;
-
-    if(!name || !email || !course){
-        return next(new ErrorHandler("Please enter all the fields.",404));
-    }
-
-    const to=process.env.MY_MAIL;
-    const subject = "Contact from CourseBundler";
-    const text = `I am ${name} and my email is ${email} \n ${course}` 
-
-    sendEmail(to,subject,text);
-
-    res.status(200).json({
-        success:true,
-        message:"Thank you for requesting us. We will comeback to you soon."
-    });
-});
-
 export const  getDashboardStats = catchAsyncErrors(async (req,res,next) => {
 
     const stats  = await Stats.find().sort({createdAt:"desc"}).limit(12);
@@ -52,7 +12,7 @@ export const  getDashboardStats = catchAsyncErrors(async (req,res,next) => {
     for(let i=0;i<stats.length;i++){
         statsData.push(stats[i]);
     }
-    console.log(stats.length);
+    
     const requiredSize = 12 - stats.length;
 
     for(let i=0;i<requiredSize;i++){

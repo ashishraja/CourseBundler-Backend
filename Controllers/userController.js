@@ -266,7 +266,7 @@ export const updateProfilePicture = catchAsyncErrors(async (req, res, next) => {
 
 
 export const addToPlaylist = catchAsyncErrors(async (req, res, next) => {
-
+    
     const user = await User.findById(req.user._id);
     const course = await Course.findById(req.body.id);
     
