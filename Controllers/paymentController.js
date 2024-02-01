@@ -14,7 +14,7 @@ export const buySubscription = catchAsyncErrors(async (req, res, next) => {
     }
     
     const planId = process.env.PLAN_ID;
-
+    
     const subscription = await razorpayInstance.subscriptions.create({
       plan_id: planId,
       customer_notify: 1,
@@ -46,14 +46,14 @@ export const paymentVerification = catchAsyncErrors(async (req, res, next) => {
   try {
     const { razorpay_payment_id, razorpay_signature, razorpay_subscription_id } = req.body;
     const user = await User.findById(req.user._id);
-
+    
     const subscriptionId = user.subscription.id;
 
     const generatedSignature = crypto
       .createHmac("sha256", KEY_SECRET)
       .update(`${razorpay_payment_id}|${subscriptionId}`, "utf-8")
       .digest("hex");
-
+    
     const isAuthentic = generatedSignature === razorpay_signature;
 
     if (!isAuthentic) {
@@ -111,7 +111,7 @@ export const cancelSubscription = catchAsyncErrors(async (req, res, next) => {
     refund=false;
   }
 
-  await payment.remove();
+  await payment.deleteOne();
   user.subscription.id = undefined;
   user.subscription.status = undefined;
   await user.save();
