@@ -18,7 +18,7 @@ export const  getDashboardStats = catchAsyncErrors(async (req,res,next) => {
     for(let i=0;i<requiredSize;i++){
         statsData.unshift({
             users:0,
-            subscriptions:0,
+            subscription:0,
             views:0
         });
     }
@@ -68,4 +68,4 @@ export const  getDashboardStats = catchAsyncErrors(async (req,res,next) => {
         subscriptionProfit,
         viewsProfit,
     });
-});
+})
