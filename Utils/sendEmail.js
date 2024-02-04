@@ -11,6 +11,9 @@ const sendEmail = async (options) => {
         user: process.env.MY_MAIL,
         pass: process.env.SMTP_PASS,
       },
+      tls: {
+        minVersion: 'TLSv1.2', // Adjust as needed
+      },
     });
 
     const emailOptions = {
