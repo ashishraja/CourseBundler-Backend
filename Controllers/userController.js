@@ -9,8 +9,6 @@ import cloudinary from "cloudinary"
 import getDataUri from "../Utils/dataUri.js";
 import { Stats } from "../Models/Stats.js";
 
-
-
 export const register = catchAsyncErrors(async (req, res, next) => {
 
     const { name, email, password } = req.body;

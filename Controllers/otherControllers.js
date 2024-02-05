@@ -1,7 +1,5 @@
 import { catchAsyncErrors } from "../Middleware/catchAsyncErrors.js";
 import { Stats } from "../Models/Stats.js";
-import ErrorHandler from "../Utils/ErrorHandler.js";
-import sendEmail from "../Utils/sendEmail.js";
 
 export const  getDashboardStats = catchAsyncErrors(async (req,res,next) => {
 
