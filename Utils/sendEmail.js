@@ -12,7 +12,7 @@ const sendEmail = async (options) => {
         pass: process.env.SMTP_PASS,
       },
       tls: {
-        minVersion: 'TLSv1.2', // Adjust as needed
+        minVersion: 'TLSv1.2',
       },
     });
 
