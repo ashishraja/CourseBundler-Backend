@@ -5,6 +5,7 @@ import validator from "validator";
 import jwt from "jsonwebtoken";
 //ES6
 import bcrypt from 'bcryptjs';
+
 const schema = new mongoose.Schema({
 
         name:{
@@ -84,10 +85,8 @@ schema.methods.comparePassword = async function(password){
 }
 
 schema.methods.getResetToken = function () {
-    // Generating Token
     const resetToken = crypto.randomBytes(20).toString("hex");
   
-    // Hashing and adding resetPasswordToken to userSchema
     this.resetPasswordToken = crypto
       .createHash("sha256")
       .update(resetToken)
