@@ -31,6 +31,3 @@ nodecron.schedule("0 0 0 1 * *",async() => {
 app.listen(process.env.PORT , () => {
  console.log(`SERVER IS WORKING ON PORT : ${process.env.PORT}`);
 });
-
-// "test": "echo \"Error: no test specified\" && exit 1",
-    // "start": "node backend/server.js",
