@@ -11,20 +11,17 @@ const schema = new mongoose.Schema({
         name:{
             type:String,
             required:[true,"Please enter your Name"],
-            maxLength:[30,"Name cannot exceed more than 30 characters"],
-            minLength:[6,"Name cannot be less than 6 characters"]
         },
         email:{
             type:String,
             required:[true,"Please enter your email address"],
             unique:true,
-            validate:[validator.isEmail,"Please enter a valid Email"]
         },
         password:{
             type:String,
             required:[true,"Please enter your Password"],
-            minLength:[8,"Password must be more than 8 characters"],
-            select:false
+            minLength:[8,"Password must be equal to or more than 8 characters"],
+            select:false,
         },
         avatar:{
             public_id:{
