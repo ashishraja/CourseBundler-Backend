@@ -16,13 +16,13 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     let user = await User.findOne({ email });
 
     if (user) {
-        return next(new ErrorHandler(`User with email ${email} already exist`, 409));
+        return next(new ErrorHandler("User Already Exist", 409));
     }
-    
+
     const file = req.file;
     const fileUri = getDataUri(file);
     const myCloud = await cloudinary.v2.uploader.upload(fileUri.content)
-    
+
     user = await User.create({
         name,
         email,
@@ -39,7 +39,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 
 export const loginUser = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
         return next(new ErrorHandler("Please enter your email and password!", 401));
     }
@@ -56,7 +56,7 @@ export const loginUser = catchAsyncErrors(async (req, res, next) => {
     if (!isPasswordMatched) {
         return next(new ErrorHandler("Invalid Password or email", 401));
     }
-    
+
     sendToken(user, 200, res, `Welcome Back ${user.name}`);
 });
 
@@ -354,7 +354,7 @@ export const updateUserRole = catchAsyncErrors(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        message: "Role Updated Successfully"
+        message: "Role Updated"
     });
 
 });
