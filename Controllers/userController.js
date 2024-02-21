@@ -39,7 +39,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 
 export const loginUser = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
-
+    
     if (!email || !password) {
         return next(new ErrorHandler("Please enter your email and password!", 401));
     }
@@ -56,7 +56,7 @@ export const loginUser = catchAsyncErrors(async (req, res, next) => {
     if (!isPasswordMatched) {
         return next(new ErrorHandler("Invalid Password or email", 401));
     }
-
+    
     sendToken(user, 200, res, `Welcome Back ${user.name}`);
 });
 
