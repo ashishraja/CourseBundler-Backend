@@ -60,6 +60,24 @@ const schema = new mongoose.Schema({
                 poster:String,
             },
         ],
+        progress: [{
+            course: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Course' // Reference to the Course model
+            },
+            completedLectures: {
+                type: Number,
+                default: 0
+            },
+            totalLectures: {
+                type: Number,
+                default: 0
+            },
+            completed: {
+                type: Boolean,
+                default: false
+            }
+        }],
         
         resetPasswordToken:String,
         resetPasswordExpire:Date,

@@ -1,7 +1,7 @@
 import express from "express";
 import { getDashboardStats } from "../Controllers/otherControllers.js";
-import { resetPassword , forgotPassword , getAllUsers , getUserDetails, loginUser, logout, register, updatePassword, addToPlaylist, removeFromPlaylist, updateProfilePicture, updateProfile, getSingleUserDetails, updateUserRole, deleteUser, deleteMyProfile } from "../Controllers/userController.js";
-import { authorizeRoles, isAuthenticatedUser } from "../Middleware/authentication.js";
+import { resetPassword , forgotPassword , getAllUsers , getUserDetails, loginUser, logout, register, updatePassword, addToPlaylist, removeFromPlaylist, updateProfilePicture, updateProfile, getSingleUserDetails, updateUserRole, deleteUser, deleteMyProfile, updateCourseProgress } from "../Controllers/userController.js";
+import { authorizeRoles, authorizeSubscribers, isAuthenticatedUser } from "../Middleware/authentication.js";
 import singleUpload from "../Middleware/Multer.js";
 const router = express.Router();
 
@@ -21,6 +21,7 @@ router.route("/updateprofilepicture").put(isAuthenticatedUser , singleUpload , u
 router.route("/addtoplaylist").post(isAuthenticatedUser,addToPlaylist);
 router.route("/removefromplaylist").delete(isAuthenticatedUser,removeFromPlaylist);
 router.route("/getstats").get(getDashboardStats);
+router.route("/course/:id").post(isAuthenticatedUser , authorizeSubscribers , updateCourseProgress);
 
 // admin routes
 router.route("/admin/users").get(isAuthenticatedUser, authorizeRoles , getAllUsers);

@@ -29,7 +29,10 @@
     "nodemailer": "^6.9.9",
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^3.0.1",
+    "pdfkit": "^0.14.0",
     "razorpay": "^2.9.2",
+    "simple-peer": "^9.11.1",
+    "socket.io-client": "^4.7.5",
     "validator": "^13.11.0"
   }
 }

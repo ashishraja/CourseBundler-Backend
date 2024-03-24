@@ -378,6 +378,45 @@ export const deleteUser = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
+export const updateCourseProgress = catchAsyncErrors(async (req, res, next) => {
+    const { userId, courseId, completedLectures, totalLectures, completed } = req.body;
+  
+    try {
+      // Find the user by ID
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+  
+      const courseProgressIndex = user.progress.findIndex(item => item.course.toString() === courseId);
+  
+      if (courseProgressIndex !== -1) {
+        console.log("hello");
+        user.progress[courseProgressIndex].completedLectures = completedLectures;
+        user.progress[courseProgressIndex].totalLectures = totalLectures;
+        user.progress[courseProgressIndex].completed = completed;
+      } else {
+        console.log("bye");
+        user.progress.push({
+          course: courseId,
+          completedLectures,
+          totalLectures,
+          completed
+        });
+      }
+  
+      // Save the updated user document
+      await user.save();
+  
+      return res.status(200).json({ success: true, message: 'Course progress updated successfully' });
+    } catch (error) {
+      console.error('Error updating course progress:', error);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
+
 User.watch().on("change", async () => {
     const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);
 
@@ -389,3 +428,5 @@ User.watch().on("change", async () => {
 
     await stats[0].save();
 });
+
+

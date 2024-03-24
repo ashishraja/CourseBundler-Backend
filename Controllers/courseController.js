@@ -4,6 +4,7 @@ import getDataUri from "../Utils/dataUri.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import cloudinary from "cloudinary";
 import { Stats } from "../Models/Stats.js";
+import { User } from "../Models/User.js";
 
 export const getAllCourses = catchAsyncErrors(async (req,res,next) => {
     try{
@@ -54,6 +55,25 @@ export const createCourse = catchAsyncErrors(async (req,res,next) => {
         message:"Course Created Successfully. You can add the lectures now."
     });
 });
+
+
+export const getCourseById = catchAsyncErrors(async (req,res,next) => {
+
+    const course = await Course.findById(req.params.id);
+    if(!course){
+        return next(new ErrorHandler("Course Not Found...",404));
+    }
+
+    await course.save();
+
+    res.status(200).json({
+        success:true,
+        course:course,
+    });
+
+});
+
+
 
 export const getCourseLectures = catchAsyncErrors(async (req,res,next) => {
 
